@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso Prévio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #0d0d0d;
+      color: #e6e6e6;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      max-width: 600px;
+      line-height: 1.5;
+      opacity: 0.8;
+      margin-bottom: 2rem;
+    }
+
+    #countdown {
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      margin-top: 1rem;
+      color: #f04e4e;
+    }
+
+    .symbol {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #f04e4e;
+      border-radius: 50%;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      color: #f04e4e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.3; transform: scale(0.9); }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="symbol">⚠</div>
+
+  <h1>O Aviso foi dado.</h1>
+  <p>Nem todos o entenderam.<br>O silêncio é o último sinal antes do impacto.</p>
+
+  <div id="countdown"></div>
+
+  <!-- Som ambiente opcional -->
+  <audio autoplay loop>
+    <source src="ambient.mp3" type="audio/mpeg">
+    <!-- Coloca um ficheiro "ambient.mp3" na mesma pasta do HTML se quiseres som -->
+  </audio>
+
+  <footer>#AvisoPrévio © 2025</footer>
+
+  <script>
+    // Contador para a data do lançamento (formato: "YYYY-MM-DDTHH:MM:SS")
+    const launchDate = new Date("2025-12-13T20:00:00").getTime();
+
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      if (distance > 0) {
+        document.getElementById("countdown").innerHTML =
+          `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        document.getElementById("countdown").innerHTML = "O aviso terminou.";
+        clearInterval(timer);
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>

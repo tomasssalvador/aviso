@@ -4,9 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aviso Prévio</title>
+
+  <!-- =================== CSS =================== -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
 
+    /* ------------------- Body ------------------- */
     body {
       margin: 0;
       height: 100vh;
@@ -19,12 +22,15 @@
       align-items: center;
       text-align: center;
       overflow: hidden;
+      position: relative;
     }
 
+    /* ------------------- Títulos e parágrafos ------------------- */
     h1 {
       font-size: 2.2rem;
       letter-spacing: 1px;
       margin-bottom: 0.5rem;
+      z-index: 10;
     }
 
     p {
@@ -33,15 +39,19 @@
       line-height: 1.5;
       opacity: 0.8;
       margin-bottom: 2rem;
+      z-index: 10;
     }
 
+    /* ------------------- Countdown ------------------- */
     #countdown {
       font-size: 1.4rem;
       letter-spacing: 2px;
       margin-top: 1rem;
       color: #f04e4e;
+      z-index: 10;
     }
 
+    /* ------------------- Símbolo ⚠ ------------------- */
     .symbol {
       width: 60px;
       height: 60px;
@@ -54,6 +64,9 @@
       font-size: 1.2rem;
       color: #f04e4e;
       animation: pulse 2s infinite;
+      position: relative;
+      z-index: 10;
+      cursor: pointer;
     }
 
     @keyframes pulse {
@@ -62,54 +75,327 @@
       100% { opacity: 0.3; transform: scale(0.9); }
     }
 
-    footer {
+    /* ------------------- Mensagem "Estás Atento!" ------------------- */
+    #secretKeyboardMsg {
+      opacity: 0;
       position: absolute;
-      bottom: 10px;
-      font-size: 0.8rem;
-      opacity: 0.5;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #f04e4e;
+      font-size: 1.2rem;
+      text-align: center;
+      cursor: pointer;
     }
+
+    /* ------------------- Botão secreto ------------------- */
+    #secretButton {
+      display: none;
+      margin-top: 2rem;
+      padding: 0.8rem 1.6rem;
+      background: transparent;
+      border: 2px solid #f04e4e;
+      color: #f04e4e;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0;
+      transition: 0.8s;
+      animation: softPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes softPulse {
+      0% { opacity: 0.5; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.04); }
+      100% { opacity: 0.5; transform: scale(0.98); }
+    }
+
+    #secretButton.show {
+      opacity: 1;
+      display: block;
+    }
+
+    /* ------------------- Dicas e pistas ------------------- */
+    #keyboardHint {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      color: #f04e4e;
+      opacity: 0.6;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      pointer-events: none;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .hint {
+      position: absolute;
+      font-size: 0.9rem;
+      opacity: 0;
+      color: #f04e4e;
+      transition: opacity 1s;
+      pointer-events: none;
+      font-weight: 300;
+    }
+
+    #keyboardHintWrapper {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#keyboardHint {
+  color: #f04e4e;
+  opacity: 0.6;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  font-family: 'Montserrat', sans-serif;
+  z-index: 2;
+  pointer-events: none; /* texto não interfere */
+}
+
+/* Input invisível para captar clique */
+#hiddenKeyboardInput {
+  position: absolute;
+  width: 130px; /* ajusta se quiseres */
+  height: 25px;
+  opacity: 0;   /* invisível */
+  border: none;
+  background: transparent;
+  z-index: 3;
+  cursor: text;
+}
+
+    /* ------------------- Mensagens escondidas no símbolo ------------------- */
+    #hiddenMsg {
+      position: absolute;
+      top: 75px;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.6s;
+      color: #f04e4e;
+      pointer-events: none;
+    }
+
+    /* ------------------- Glitch ------------------- */
+    .glitch {
+      position: relative;
+      display: inline-block;
+      font-size: 1.5rem;
+      font-weight: 500;
+      animation: glitch-skew 1s infinite alternate ease-in-out,
+                 glitch-flicker 1.5s infinite;
+    }
+
+    @keyframes glitch-skew {
+      0% { transform: skew(0deg); }
+      20% { transform: skew(1deg); }
+      40% { transform: skew(-1deg); }
+      60% { transform: skew(0.5deg); }
+      80% { transform: skew(-0.5deg); }
+      100% { transform: skew(0deg); }
+    }
+
+    @keyframes glitch-flicker {
+      0%, 19%, 21%, 24%, 26%, 29%, 31%, 100% { opacity: 1; }
+      20%, 25%, 30% { opacity: 0; }
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0.2;
+    }
+
+    .glitch::before { color: #f04e4e; transform: translate(-2px, -1px); }
+    .glitch::after { color: #ffffff; transform: translate(2px, 1px); }
+
   </style>
 </head>
 <body>
 
-  <div class="symbol">⚠</div>
+  <!-- =================== Áudio =================== -->
+  <audio id="attentoAudio" src="ambient.mp3" preload="auto"></audio>
+  <audio id="glitchSound" src="glitch.mp3" preload="auto"></audio>
+  <audio id="beepSound" src="beep.mp3" preload="auto"></audio>
 
+  <!-- =================== Símbolo principal =================== -->
+  <div class="symbol" id="symbol">⚠</div>
+  <div id="hiddenMsg"></div>
+
+  <!-- =================== Texto principal =================== -->
   <h1>O Aviso foi dado.</h1>
-  <p>Nem todos o entenderam.<br>O silêncio é o último sinal antes do impacto.</p>
+  <p>Nem todos o entenderam.<br>Afinal a história ainda não acabou...</p>
+  
 
+  <!-- =================== Countdown =================== -->
   <div id="countdown"></div>
 
-  <!-- Som ambiente opcional -->
-  <audio autoplay loop>
-    <source src="ambient.mp3" type="audio/mpeg">
-    <!-- Coloca um ficheiro "ambient.mp3" na mesma pasta do HTML se quiseres som -->
-  </audio>
+  <!-- =================== Dicas subtis =================== -->
+  <div class="hint" id="hint1" style="left: 5%; top: 10%;">Não ignores tudo…</div>
+  <div class="hint" id="hint2" style="right: 8%; bottom: 15%;">Nem sempre é spam.</div>
+  <div class="hint" id="hint3" style="left: 50%; bottom: 5%;">Olha melhor.</div>
 
-  <footer>#AvisoPrévio © 2025</footer>
+  <!-- =================== Botão secreto =================== -->
+  <button id="secretButton" onclick="window.location.href='https://www.instagram.com/osdonagraca?igsh=ajdkdm54ZnZldjgw'">
+    Estás preparado?
+  </button>
 
+  <!-- =================== Dica de teclado =================== -->
+<div id="keyboardHintWrapper">
+  <div id="keyboardHint">Aviso _ _ _ _ _ _</div>
+  <input id="hiddenKeyboardInput" autocomplete="off" />
+</div>
+
+  <!-- =================== Mensagem “Estás Atento!” =================== -->
+  <div id="secretKeyboardMsg">Estás Atento!</div>
+
+  <!-- =================== JavaScript =================== -->
   <script>
-    // Contador para a data do lançamento (formato: "YYYY-MM-DDTHH:MM:SS")
-    const launchDate = new Date("2025-12-13T20:00:00").getTime();
+    /* ------------------- Configuração do timer ------------------- */
+    const launchDate = new Date("2025-12-06T20:52:00").getTime();
 
+    /* ------------------- Mensagens escondidas no símbolo ⚠ ------------------- */
+    const hiddenMsg = document.getElementById("hiddenMsg");
+    const secretTexts = [
+      "Eles avisaram...",
+      "Ainda há mais.",
+      "Nem tudo é o que parece.",
+      "Estás atento?",
+      "Volta a olhar."
+    ];
+
+    function randomPositionMessage() {
+      const x = Math.random() * 70 + 10;
+      const y = Math.random() * 60 + 10;
+      hiddenMsg.style.left = x + "%";
+      hiddenMsg.style.top = y + "%";
+    }
+
+    setInterval(() => {
+      hiddenMsg.textContent = secretTexts[Math.floor(Math.random() * secretTexts.length)];
+      randomPositionMessage();
+      hiddenMsg.style.opacity = 1;
+      setTimeout(() => { hiddenMsg.style.opacity = 0; }, 1200);
+    }, 3500);
+
+    /* ------------------- Dicas subtis aleatórias ------------------- */
+    const hints = [
+      document.getElementById("hint1"),
+      document.getElementById("hint2"),
+      document.getElementById("hint3")
+    ];
+
+    hints.forEach(h => h.style.opacity = 0);
+
+    function randomHintPosition(hint) {
+      const x = Math.random() * 80 + 5;
+      const y = Math.random() * 70 + 10;
+      hint.style.left = x + "%";
+      hint.style.top = y + "%";
+      hint.style.right = "auto";
+      hint.style.bottom = "auto";
+    }
+
+    function cycleHints() {
+      hints.forEach(h => h.style.opacity = 0);
+      const selected = hints[Math.floor(Math.random() * hints.length)];
+      randomHintPosition(selected);
+      setTimeout(() => { selected.style.opacity = 1; }, 300);
+      setTimeout(() => { selected.style.opacity = 0; }, 3000);
+    }
+
+    setInterval(cycleHints, 4500);
+
+    /* ------------------- Timer principal ------------------- */
     const timer = setInterval(function() {
       const now = new Date().getTime();
       const distance = launchDate - now;
-
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       if (distance > 0) {
-        document.getElementById("countdown").innerHTML =
-          `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       } else {
-        document.getElementById("countdown").innerHTML = "O aviso terminou.";
+        document.getElementById("countdown").innerHTML = "A espera acabou...";
         clearInterval(timer);
+        document.getElementById("secretButton").classList.add("show");
       }
     }, 1000);
+
+    /* ------------------- Glitch ao clicar no símbolo ------------------- */
+    document.getElementById("symbol").addEventListener("click", function () {
+      const glitchAudio = document.getElementById("glitchSound");
+      glitchAudio.currentTime = 0;
+      glitchAudio.play().catch(err => console.log("Erro a tocar glitch:", err));
+
+      const mainParagraph = document.querySelector("p");
+      mainParagraph.setAttribute("data-text", "Agora também fazes parte disto...");
+      mainParagraph.innerHTML = "Agora também fazes parte disto...";
+      mainParagraph.classList.add("glitch");
+      mainParagraph.style.opacity = 0;
+      setTimeout(() => mainParagraph.style.opacity = 1, 200);
+    });
+
+    /* ------------------- Teclado secreto ------------------- */
+    // Evita que o input guarde letras reais
+document.getElementById("hiddenKeyboardInput").addEventListener("input", (e) => {
+  e.target.value = ""; // mantém invisível e limpo
+});
+
+    const targetWord = "PRÉVIO";
+    let typed = "";
+    const beep = document.getElementById("beepSound");
+
+    document.addEventListener("keydown", (e) => {
+      let key = e.key.toUpperCase();
+      if (key === "E") key = "É";
+
+      if (targetWord.includes(key)) {
+        typed += key;
+        beep.currentTime = 0;
+        beep.play();
+
+        let display = "";
+        for (let i = 0; i < targetWord.length; i++) {
+          display += (typed[i] ? typed[i] : "_") + " ";
+        }
+        document.getElementById("keyboardHint").textContent = "Aviso " + display.trim();
+
+        if (typed === targetWord) {
+          document.getElementById("secretKeyboardMsg").style.opacity = 1;
+        }
+      } else {
+        typed = "";
+        document.getElementById("keyboardHint").textContent = "Aviso _ _ _ _ _ _";
+      }
+    });
+
+    document.getElementById("hiddenKeyboardInput").addEventListener("click", () => {
+  document.getElementById("hiddenKeyboardInput").focus();
+});
+
+    // Seleciona a div e o áudio
+const secretMsg = document.getElementById("secretKeyboardMsg");
+const attentoAudio = document.getElementById("attentoAudio");
+
+// Evento de clique
+secretMsg.addEventListener("click", () => {
+  attentoAudio.currentTime = 0; // reinicia o áudio
+  attentoAudio.play().catch(err => console.log("Erro ao tocar o áudio:", err));
+});
+
   </script>
 
 </body>
 </html>
-

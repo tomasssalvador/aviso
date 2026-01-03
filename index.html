@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- =================== Tomás Salvador Nº17056 =================== -->
+ <!-- =================== Comunicação, Tecnologia e Novos Média =================== -->
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
@@ -25,7 +27,7 @@
       position: relative;
     }
 
-    /* ------------------- Títulos e parágrafos ------------------- */
+
     h1 {
       font-size: 2.2rem;
       letter-spacing: 1px;
@@ -51,7 +53,7 @@
       z-index: 10;
     }
 
-    /* ------------------- Símbolo ⚠ ------------------- */
+    /* ------------------- Símbolo ------------------- */
     .symbol {
       width: 60px;
       height: 60px;
@@ -122,7 +124,7 @@
       bottom: 10px;
       right: 10px;
       color: #f04e4e;
-      opacity: 0.6;
+      opacity: 0.9;
       font-size: 1rem;
       letter-spacing: 2px;
       pointer-events: none;
@@ -151,27 +153,27 @@
 
 #keyboardHint {
   color: #f04e4e;
-  opacity: 0.6;
+  opacity: 1;
   font-size: 1rem;
   letter-spacing: 2px;
   font-family: 'Montserrat', sans-serif;
   z-index: 2;
-  pointer-events: none; /* texto não interfere */
+  pointer-events: none; 
 }
 
-/* Input invisível para captar clique */
+
 #hiddenKeyboardInput {
   position: absolute;
-  width: 130px; /* ajusta se quiseres */
+  width: 130px; 
   height: 25px;
-  opacity: 0;   /* invisível */
+  opacity: 0;   
   border: none;
   background: transparent;
   z-index: 3;
   cursor: text;
 }
 
-    /* ------------------- Mensagens escondidas no símbolo ------------------- */
+
     #hiddenMsg {
       position: absolute;
       top: 75px;
@@ -182,7 +184,6 @@
       pointer-events: none;
     }
 
-    /* ------------------- Glitch ------------------- */
     .glitch {
       position: relative;
       display: inline-block;
@@ -239,7 +240,7 @@
   <!-- =================== Countdown =================== -->
   <div id="countdown"></div>
 
-  <!-- =================== Dicas subtis =================== -->
+  <!-- =================== Dicas  =================== -->
   <div class="hint" id="hint1" style="left: 5%; top: 10%;">Não ignores tudo…</div>
   <div class="hint" id="hint2" style="right: 8%; bottom: 15%;">Nem sempre é spam.</div>
   <div class="hint" id="hint3" style="left: 50%; bottom: 5%;">Olha melhor.</div>
@@ -249,28 +250,30 @@
     Estás preparado?
   </button>
 
-  <!-- =================== Dica de teclado =================== -->
+  <!-- ===================  teclado =================== -->
 <div id="keyboardHintWrapper">
   <div id="keyboardHint">Aviso _ _ _ _ _ _</div>
   <input id="hiddenKeyboardInput" autocomplete="off" />
 </div>
 
-  <!-- =================== Mensagem “Estás Atento!” =================== -->
+  <!-- =================== Mensagem  =================== -->
   <div id="secretKeyboardMsg">Estás Atento!</div>
 
   <!-- =================== JavaScript =================== -->
   <script>
     /* ------------------- Configuração do timer ------------------- */
-    const launchDate = new Date("2025-12-20T00:00:00").getTime();
+    const launchDate = new Date("2026-01-15T00:00:00").getTime();
 
-    /* ------------------- Mensagens escondidas no símbolo ⚠ ------------------- */
+
     const hiddenMsg = document.getElementById("hiddenMsg");
     const secretTexts = [
       "Eles avisaram...",
       "Ainda há mais.",
       "Nem tudo é o que parece.",
-      "Estás atento?",
-      "Volta a olhar."
+      "Estás mesmo atento?",
+      "Volta a olhar... Para o canto...",
+      "Escreve...",
+      "Já clicaste em tudo?"
     ];
 
     function randomPositionMessage() {
@@ -287,7 +290,6 @@
       setTimeout(() => { hiddenMsg.style.opacity = 0; }, 1200);
     }, 3500);
 
-    /* ------------------- Dicas subtis aleatórias ------------------- */
     const hints = [
       document.getElementById("hint1"),
       document.getElementById("hint2"),
@@ -315,7 +317,7 @@
 
     setInterval(cycleHints, 4500);
 
-    /* ------------------- Timer principal ------------------- */
+
     const timer = setInterval(function() {
       const now = new Date().getTime();
       const distance = launchDate - now;
@@ -389,7 +391,7 @@ document.getElementById("hiddenKeyboardInput").addEventListener("input", (e) => 
 const secretMsg = document.getElementById("secretKeyboardMsg");
 const attentoAudio = document.getElementById("attentoAudio");
 
-// Evento de clique
+// Evento 
 secretMsg.addEventListener("click", () => {
   attentoAudio.currentTime = 0; // reinicia o áudio
   attentoAudio.play().catch(err => console.log("Erro ao tocar o áudio:", err));
